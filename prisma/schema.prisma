@@ -1,0 +1,41 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Subscriber {
+  email      String   @unique
+  isVerified Boolean  @default(false)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@map("subscribers")
+}
+
+model News {
+  id           String   @id @default(cuid())
+  slug         String   @unique
+  title        String
+  description  String
+  content      String
+  image        String
+  imageAlt     String?
+  imageCaption String?
+  readTime     Int
+  category     Category
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  @@map("news")
+}
+
+enum Category {
+  HEALTH
+  ENTERTAINMENT
+  SCIENCE
+  BUSINESS
+}
